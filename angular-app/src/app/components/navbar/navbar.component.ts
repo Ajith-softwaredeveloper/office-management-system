@@ -1,14 +1,20 @@
 import { Component, Input, OnInit, HostListener } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { ThemeService } from '../../services/theme.service';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-navbar',
   template: `
     <div class="topbar">
       <div class="topbar-left">
-        <div class="topbar-title">{{ title }}</div>
-        <div class="topbar-breadcrumb">Office Management System</div>
+        <button class="sidebar-toggle" (click)="layout.toggleSidebar()" title="Toggle Sidebar">
+          {{ (layout.isCollapsed$ | async) ? '▷' : '◁' }}
+        </button>
+        <div style="margin-left: 10px;">
+          <div class="topbar-title">{{ title }}</div>
+          <div class="topbar-breadcrumb">Office Management System</div>
+        </div>
       </div>
       <div class="topbar-right">
 
@@ -88,7 +94,11 @@ export class NavbarComponent implements OnInit {
     return this.authService.currentUserValue?.name?.[0]?.toUpperCase() ?? 'U';
   }
 
-  constructor(public authService: AuthService, public theme: ThemeService) {}
+  constructor(
+    public authService: AuthService, 
+    public theme: ThemeService,
+    public layout: LayoutService
+  ) {}
 
   ngOnInit() {
     this.theme.apply();

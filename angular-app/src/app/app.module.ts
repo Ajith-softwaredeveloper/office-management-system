@@ -16,6 +16,9 @@ import { LeavesComponent } from './pages/leaves/leaves.component';
 import { StaffComponent } from './pages/staff/staff.component';
 import { LeaveCalculationsComponent } from './pages/leave-calculations/leave-calculations.component';
 import { ArticlesComponent } from './pages/articles/articles.component';
+import { ProjectsComponent } from './pages/projects/projects.component';
+import { TeamsComponent } from './pages/teams/teams.component';
+import { DocumentsComponent } from './pages/documents/documents.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 
@@ -32,6 +35,9 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     StaffComponent,
     LeaveCalculationsComponent,
     ArticlesComponent,
+    ProjectsComponent,
+    TeamsComponent,
+    DocumentsComponent,
     NavbarComponent,
     SidebarComponent
   ],

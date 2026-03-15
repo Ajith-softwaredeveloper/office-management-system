@@ -12,11 +12,17 @@ import { LeavesComponent } from './pages/leaves/leaves.component';
 import { StaffComponent } from './pages/staff/staff.component';
 import { LeaveCalculationsComponent } from './pages/leave-calculations/leave-calculations.component';
 import { ArticlesComponent } from './pages/articles/articles.component';
+import { ProjectsComponent } from './pages/projects/projects.component';
+import { TeamsComponent } from './pages/teams/teams.component';
+import { DocumentsComponent } from './pages/documents/documents.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'projects', component: ProjectsComponent, canActivate: [AuthGuard] },
+  { path: 'teams', component: TeamsComponent, canActivate: [AuthGuard] },
+  { path: 'documents', component: DocumentsComponent, canActivate: [AuthGuard] },
   { path: 'employees', component: EmployeeManagementComponent, canActivate: [AuthGuard] },
   { path: 'attendance', component: AttendanceComponent, canActivate: [AuthGuard] },
   { path: 'tasks', component: TasksComponent, canActivate: [AuthGuard] },
