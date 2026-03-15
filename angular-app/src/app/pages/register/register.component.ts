@@ -95,6 +95,9 @@ export class RegisterComponent {
   success = false;
 
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
+    if (this.auth.currentUserValue) {
+      this.router.navigate(['/dashboard']);
+    }
     this.form = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],

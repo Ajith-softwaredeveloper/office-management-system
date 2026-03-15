@@ -66,6 +66,9 @@ export class LoginComponent {
   error = '';
 
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
+    if (this.auth.currentUserValue) {
+      this.router.navigate(['/dashboard']);
+    }
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]

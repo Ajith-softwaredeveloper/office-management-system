@@ -5,7 +5,7 @@ import { ThemeService } from './services/theme.service';
 @Component({
   selector: 'app-root',
   template: `
-    <div class="layout" *ngIf="authService.currentUser$ | async as user; else authPages">
+    <div class="layout" *ngIf="(authService.currentUser$ | async) && authService.token; else authPages">
       <app-sidebar></app-sidebar>
       <div class="main">
         <app-navbar [title]="pageTitle"></app-navbar>
