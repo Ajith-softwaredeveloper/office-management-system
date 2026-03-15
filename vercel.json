@@ -1,5 +1,11 @@
 {
   "version": 2,
+  "env": {
+    "MONGOMS_DOWNLOAD_DIR": "/tmp/mongodb-binaries",
+    "MONGOMS_DATA_PATH": "/tmp/mongodb-data",
+    "MONGOMS_TMPDIR": "/tmp",
+    "MONGOMS_VERSION": "7.0.14"
+  },
   "builds": [
     {
       "src": "package.json",
