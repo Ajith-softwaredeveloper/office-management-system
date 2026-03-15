@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { Router, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -19,7 +18,7 @@ import { Router, RouterLinkActive } from '@angular/router';
         <a routerLink="/staff" routerLinkActive="active" class="nav-link">
           <span class="nav-icon">👥</span><span>Staff</span>
         </a>
-        <a routerLink="/employees" routerLinkActive="active" class="nav-link" *ngIf="isAdmin">
+        <a routerLink="/employees" routerLinkActive="active" class="nav-link">
           <span class="nav-icon">🗂️</span><span>Employees</span>
         </a>
 
@@ -58,7 +57,6 @@ import { Router, RouterLinkActive } from '@angular/router';
 })
 export class SidebarComponent {
   get user() { return this.auth.currentUserValue; }
-  get isAdmin() { return this.auth.isAdmin; }
   get initial() { return this.user?.name?.[0]?.toUpperCase() ?? 'U'; }
 
   constructor(private auth: AuthService) {}

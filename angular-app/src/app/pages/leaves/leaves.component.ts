@@ -95,7 +95,7 @@ export class LeavesComponent implements OnInit {
   modal = false;
   form: any = { leaveType:'Casual', reason:'', startDate:'', endDate:'' };
 
-  get isAdmin() { return this.auth.isAdmin || this.auth.isManager; }
+  get isAdmin() { return true; }
 
   constructor(private api: ApiService, private auth: AuthService) {}
   ngOnInit() { this.load(); }

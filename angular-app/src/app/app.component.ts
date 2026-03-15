@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from './services/auth.service';
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,13 @@ import { AuthService } from './services/auth.service';
     </ng-template>
   `
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   pageTitle = 'Dashboard';
-  constructor(public authService: AuthService) {}
+
+  constructor(public authService: AuthService, private theme: ThemeService) {}
+
+  ngOnInit() {
+    // Apply saved theme on every load
+    this.theme.apply();
+  }
 }
