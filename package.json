@@ -1,9 +1,9 @@
 {
   "name": "office-management-system",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "install": "cd angular-app && npm install",
-    "build": "cd angular-app && npm run build -- --configuration production"
+    "build": "cd angular-app && npx ng build --configuration production"
   }
 }
