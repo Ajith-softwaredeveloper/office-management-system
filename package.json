@@ -1,6 +1,8 @@
 {
   "name": "office-management-system",
   "version": "1.0.1",
+  "description": "Premium Full-Stack Office Management System",
+  "homepage": "https://office-management-system-eta.vercel.app",
   "private": true,
   "scripts": {
     "install": "cd angular-app && npm install",
