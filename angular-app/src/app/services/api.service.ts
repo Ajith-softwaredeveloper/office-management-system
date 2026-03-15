@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  private baseUrl = 'http://localhost:5000/api';
+  private baseUrl = isDevMode() ? 'http://localhost:5000/api' : '/api';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
