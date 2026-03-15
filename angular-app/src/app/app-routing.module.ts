@@ -9,6 +9,9 @@ import { EmployeeManagementComponent } from './pages/employee-management/employe
 import { AttendanceComponent } from './pages/attendance/attendance.component';
 import { TasksComponent } from './pages/tasks/tasks.component';
 import { LeavesComponent } from './pages/leaves/leaves.component';
+import { StaffComponent } from './pages/staff/staff.component';
+import { LeaveCalculationsComponent } from './pages/leave-calculations/leave-calculations.component';
+import { ArticlesComponent } from './pages/articles/articles.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -18,6 +21,9 @@ const routes: Routes = [
   { path: 'attendance', component: AttendanceComponent, canActivate: [AuthGuard] },
   { path: 'tasks', component: TasksComponent, canActivate: [AuthGuard] },
   { path: 'leaves', component: LeavesComponent, canActivate: [AuthGuard] },
+  { path: 'staff', component: StaffComponent, canActivate: [AuthGuard] },
+  { path: 'leave-calculations', component: LeaveCalculationsComponent, canActivate: [AuthGuard] },
+  { path: 'articles', component: ArticlesComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' }
 ];

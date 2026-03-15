@@ -1,16 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
-import { MatTableModule } from '@angular/material/table';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +13,9 @@ import { EmployeeManagementComponent } from './pages/employee-management/employe
 import { AttendanceComponent } from './pages/attendance/attendance.component';
 import { TasksComponent } from './pages/tasks/tasks.component';
 import { LeavesComponent } from './pages/leaves/leaves.component';
+import { StaffComponent } from './pages/staff/staff.component';
+import { LeaveCalculationsComponent } from './pages/leave-calculations/leave-calculations.component';
+import { ArticlesComponent } from './pages/articles/articles.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 
@@ -34,23 +29,19 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     AttendanceComponent,
     TasksComponent,
     LeavesComponent,
+    StaffComponent,
+    LeaveCalculationsComponent,
+    ArticlesComponent,
     NavbarComponent,
     SidebarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    MatTableModule,
-    MatSelectModule,
-    MatSnackBarModule
+    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

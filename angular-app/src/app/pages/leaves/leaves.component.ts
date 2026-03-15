@@ -5,70 +5,117 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-leaves',
   template: `
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-      <h2 class="page-title" style="margin: 0">Leave Requests</h2>
-      <button mat-flat-button color="primary" (click)="applyRandomLeave()">+ Apply Leave</button>
+    <div class="page-header">
+      <div>
+        <div class="page-title">Leave Requests</div>
+        <div class="page-sub">Apply and manage employee leave</div>
+      </div>
+      <button class="btn btn-primary" (click)="openModal()">+ Apply Leave</button>
     </div>
 
-    <div class="table-container">
-      <table mat-table [dataSource]="leaves">
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef> Employee </th>
-          <td mat-cell *matCellDef="let element"> {{ element.employeeId?.name }} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="reason">
-          <th mat-header-cell *matHeaderCellDef> Reason </th>
-          <td mat-cell *matCellDef="let element" style="font-weight: 500"> {{ element.reason }} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="dates">
-          <th mat-header-cell *matHeaderCellDef> Duration </th>
-          <td mat-cell *matCellDef="let element" style="color: var(--text-muted)"> 
-            {{ element.startDate | date:'shortDate' }} - {{ element.endDate | date:'shortDate' }} 
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef> Status </th>
-          <td mat-cell *matCellDef="let element">
-            <span [ngStyle]="{'background': element.status === 'Approved' ? '#E1F8F0' : '#FCE8E8', 'color': element.status === 'Approved' ? '#10B981' : '#EF4444'}" style="padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">
-              {{ element.status }}
-            </span>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="['name', 'reason', 'dates', 'status']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['name', 'reason', 'dates', 'status'];"></tr>
+    <div class="card">
+      <table class="data-table">
+        <thead>
+          <tr><th>Employee</th><th>Type</th><th>Reason</th><th>Duration</th><th>Days</th><th>Status</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let l of leaves">
+            <td>
+              <div style="display:flex;align-items:center;gap:10px">
+                <div class="avatar" style="background:#6366F1">{{ (l.employeeId?.name || 'U')[0] }}</div>
+                <div>
+                  <div class="fw-600">{{ l.employeeId?.name || '—' }}</div>
+                  <div class="text-muted text-sm">{{ l.employeeId?.email }}</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="badge badge-blue">{{ l.leaveType || 'Casual' }}</span></td>
+            <td>{{ l.reason }}</td>
+            <td class="text-muted">{{ l.startDate | date:'shortDate' }} → {{ l.endDate | date:'shortDate' }}</td>
+            <td><span class="badge badge-gray">{{ l.days || 1 }}d</span></td>
+            <td>
+              <span class="badge" [class.badge-yellow]="l.status==='Pending'" [class.badge-green]="l.status==='Approved'" [class.badge-red]="l.status==='Rejected'">{{ l.status }}</span>
+            </td>
+            <td>
+              <div style="display:flex;gap:6px" *ngIf="isAdmin">
+                <button class="btn btn-success btn-icon" (click)="approve(l)" *ngIf="l.status==='Pending'" title="Approve">✅</button>
+                <button class="btn btn-danger btn-icon" (click)="reject(l)" *ngIf="l.status==='Pending'" title="Reject">❌</button>
+                <button class="btn btn-danger btn-icon" (click)="deleteLeave(l._id)" title="Delete">🗑️</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
       </table>
-      <div *ngIf="leaves.length === 0" style="padding: 40px; text-align: center; color: var(--text-muted)">
-        No leave records found.
+      <div *ngIf="leaves.length === 0" class="empty-state">
+        <div class="empty-state-icon">📅</div>
+        <div class="empty-state-text">No leave requests found</div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" *ngIf="modal" (click)="closeModal($event)">
+      <div class="modal">
+        <div class="modal-header">
+          <div class="modal-title">Apply for Leave</div>
+          <button class="btn-close" (click)="modal=false">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Leave Type</label>
+              <select class="form-select" [(ngModel)]="form.leaveType">
+                <option>Sick</option><option>Casual</option><option>Earned</option><option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Reason *</label>
+              <input class="form-input" [(ngModel)]="form.reason" placeholder="Brief reason...">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Start Date *</label>
+              <input class="form-input" [(ngModel)]="form.startDate" type="date">
+            </div>
+            <div class="form-group">
+              <label class="form-label">End Date *</label>
+              <input class="form-input" [(ngModel)]="form.endDate" type="date">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="modal=false">Cancel</button>
+          <button class="btn btn-primary" (click)="apply()" [disabled]="!form.reason || !form.startDate || !form.endDate">Submit Request</button>
+        </div>
       </div>
     </div>
   `
 })
 export class LeavesComponent implements OnInit {
   leaves: any[] = [];
+  modal = false;
+  form: any = { leaveType:'Casual', reason:'', startDate:'', endDate:'' };
+
+  get isAdmin() { return this.auth.isAdmin || this.auth.isManager; }
+
   constructor(private api: ApiService, private auth: AuthService) {}
   ngOnInit() { this.load(); }
-  
-  load() {
-    this.api.getLeaves().subscribe((res: any) => this.leaves = res);
+  load() { this.api.getLeaves().subscribe((r: any) => this.leaves = r); }
+
+  openModal() {
+    this.form = { leaveType:'Casual', reason:'', startDate:'', endDate:'' };
+    this.modal = true;
   }
 
-  applyRandomLeave() {
-    const start = new Date();
-    const end = new Date();
-    end.setDate(end.getDate() + 2);
+  closeModal(e: any) { if (e.target === e.currentTarget) this.modal = false; }
 
-    this.api.applyLeave({
-      employeeId: this.auth.currentUserValue.id,
-      reason: 'Sick Leave / Personal',
-      startDate: start,
-      endDate: end
-    }).subscribe(() => {
-      alert('Leave applied successfully!');
-      this.load();
-    });
+  apply() {
+    const data = { ...this.form, employeeId: this.auth.currentUserValue?.id };
+    this.api.applyLeave(data).subscribe(() => { this.modal = false; this.load(); });
+  }
+
+  approve(l: any) { this.api.updateLeave(l._id, { status: 'Approved' }).subscribe(() => this.load()); }
+  reject(l: any) { this.api.updateLeave(l._id, { status: 'Rejected' }).subscribe(() => this.load()); }
+  deleteLeave(id: string) {
+    if (confirm('Delete this leave request?')) this.api.deleteLeave(id).subscribe(() => this.load());
   }
 }

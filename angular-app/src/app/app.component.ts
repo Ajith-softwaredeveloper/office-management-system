@@ -4,11 +4,11 @@ import { AuthService } from './services/auth.service';
 @Component({
   selector: 'app-root',
   template: `
-    <div class="layout-wrapper" *ngIf="authService.currentUser$ | async as user; else authPages">
+    <div class="layout" *ngIf="authService.currentUser$ | async as user; else authPages">
       <app-sidebar></app-sidebar>
-      <div class="main-content">
-        <app-navbar></app-navbar>
-        <div class="page-container">
+      <div class="main">
+        <app-navbar [title]="pageTitle"></app-navbar>
+        <div class="page">
           <router-outlet></router-outlet>
         </div>
       </div>
@@ -19,5 +19,6 @@ import { AuthService } from './services/auth.service';
   `
 })
 export class AppComponent {
+  pageTitle = 'Dashboard';
   constructor(public authService: AuthService) {}
 }
